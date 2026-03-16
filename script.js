@@ -502,9 +502,3 @@ document.addEventListener('keyup', function(e) {
         hKeyTime = 0;
     }
 });
-}
-});
-  }
-});
-}
-});
