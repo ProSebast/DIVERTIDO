@@ -1,8 +1,6 @@
 // ========== COSAS QUE USO PARA QUE TODO FUNCIONE O NO SE ==========
 let titleClickCount = 0;
 let volumeLevel = 50;
-let volumeUpCount = 0;
-let lastVolumeUpTime = 0;
 let konamiCode = [];
 const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
 const contentArea = document.getElementById('contentArea');
@@ -43,7 +41,6 @@ document.getElementById('mainTitle').addEventListener('click', function() {
 document.addEventListener('keydown', function(e) {
     const volumeIndicator = document.getElementById('volumeIndicator');
     const volumeLevelSpan = document.getElementById('volumeLevel');
-    const now = Date.now();
     
     if (e.key === 'ArrowUp' || e.key === '+') {
         e.preventDefault();
@@ -51,19 +48,6 @@ document.addEventListener('keydown', function(e) {
         volumeLevelSpan.textContent = volumeLevel;
         volumeIndicator.classList.add('show');
         setTimeout(() => volumeIndicator.classList.remove('show'), 2000);
-
-        // Contador para el juego (5 veces seguidas)
-        if (now - lastVolumeUpTime < 1000) {
-            volumeUpCount++;
-        } else {
-            volumeUpCount = 1;
-        }
-        lastVolumeUpTime = now;
-
-        if (volumeUpCount === 5) {
-            initGame();
-            volumeUpCount = 0;
-        }
     } else if (e.key === 'ArrowDown' || e.key === '-') {
         e.preventDefault();
         volumeLevel = Math.max(0, volumeLevel - 10);
@@ -477,8 +461,15 @@ function showMusica() {
 }
 
 // ========== MAS COSAS RARAS QUE PUSE ==========
+let eyeClickCount = 0;
 function showSecretMessage() {
-    showSecretPopup('you found something hidden 👀');
+    eyeClickCount++;
+    if (eyeClickCount === 5) {
+        initGame();
+        eyeClickCount = 0;
+    } else {
+        showSecretPopup('you found something hidden 👀');
+    }
 }
 
 function showSecretPopup(message) {
