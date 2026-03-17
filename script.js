@@ -640,4 +640,42 @@ window.addEventListener('resize', () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
+    checkOrientation(); // Pa saber si esta de lado
+});
+
+// ========== SECRETOS DE CELULAR QUE ME INVENTE ==========
+
+// 1. EL REGAÑO POR GIRAR EL CEL
+function checkOrientation() {
+    const overlay = document.getElementById('orientationOverlay');
+    if (window.innerHeight < window.innerWidth && window.innerWidth < 1000) {
+        // Esta de lado el aparato este
+        overlay.style.display = 'flex';
+    } else {
+        // Todo bien, esta derecho
+        overlay.style.display = 'none';
+    }
+}
+checkOrientation(); // Lo miro de una vez
+
+// 3. EL SECRETO DE SU NOMBRE (3 toques en Dani)
+let daniClickCount = 0;
+document.getElementById('daniSecret').addEventListener('click', function() {
+    daniClickCount++;
+    if (daniClickCount === 3) {
+        showSecretPopup('💖 ¡Eres la persona más increíble del mundo! 💖<br><br>Y oficialmente mi persona favorita 😌✨');
+        createConfetti();
+        daniClickCount = 0;
+    }
+});
+
+// 4. LLUVIA DE EMOJIS CON DOS DEDOS
+document.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 2) {
+        // ¡Doble dedo! Lluvia extrema
+        showSecretPopup('🔥 ¡EXPLOSIÓN DE EMOJIS! 🔥');
+        for(let i = 0; i < 30; i++) {
+            setTimeout(createFloatingEmoji, i * 50);
+        }
+    }
 });

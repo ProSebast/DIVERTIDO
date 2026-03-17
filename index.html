@@ -16,7 +16,7 @@
     <div class="container" id="mainContainer">
         <div class="header">
             <h1 class="main-title" id="mainTitle">Estas Lista!!!</h1>
-            <p class="intro-text">Esto es algo especialmente para ti Dani</p>
+            <p class="intro-text">Esto es algo especialmente para ti <span id="daniSecret" style="cursor: pointer; font-weight: bold; color: #FF6B9D;">Dani</span></p>
             <p class="intro-text">Para esos dias grises donde tengas dos patas izquierda ay, he creado esto!!! para ti</p>
             <p class="intro-text">Espero que te guste y te entretenga</p>
             <p class="intro-text">Esta paguina esta llena de misterios…<br>no solo en los botones <span style="cursor: pointer;" onclick="showSecretMessage()">👀</span></p>
@@ -48,6 +48,13 @@
 
     <!-- El cuadrito que sale cuando tocas algo que no debes -->
     <div id="secretMessage" class="secret-message"></div>
+
+    <!-- El cartel de que esta de lado el cel -->
+    <div id="orientationOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); color: white; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; text-align: center; padding: 20px;">
+        <h1 style="font-size: 50px;">🤢</h1>
+        <h2>¡Oye! Ponme derecho, que me mareo...</h2>
+        <p style="margin-top: 10px;">En serio, me voy a vomitar 🤮</p>
+    </div>
 
     <!-- El canvas del juego secreto -->
     <canvas id="gameCanvas"></canvas>
