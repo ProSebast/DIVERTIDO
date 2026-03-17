@@ -676,14 +676,192 @@ document.getElementById('daniSecret').addEventListener('pointerdown', function(e
     }
 });
 
-// 4. LLUVIA DE EMOJIS CON DOS DEDOS
+// 4. EL VÍNCULO DE CRISTAL (2 DEDOS)
+const beam = document.getElementById('beam');
+let isCrystalActive = false;
+
 document.addEventListener('touchstart', function(e) {
     if (e.touches.length === 2) {
-        // Detenemos el zoom del sistema para que funcione nuestro secreto
         if (e.cancelable) e.preventDefault(); 
-        showSecretPopup('🔥 ¡EXPLOSIÓN DE EMOJIS! 🔥');
-        for(let i = 0; i < 30; i++) {
-            setTimeout(createFloatingEmoji, i * 50);
-        }
+        isCrystalActive = true;
+        updateBeam(e.touches[0], e.touches[1]);
+        beam.style.display = 'block';
+        showSecretPopup('✨ ¡VÍNCULO DE CRISTAL! ✨');
     }
 }, { passive: false });
+
+document.addEventListener('touchmove', function(e) {
+    if (isCrystalActive && e.touches.length === 2) {
+        updateBeam(e.touches[0], e.touches[1]);
+        // Soltar chispas por donde pasa
+        if (Math.random() > 0.8) createFloatingEmoji();
+    }
+}, { passive: true });
+
+document.addEventListener('touchend', function(e) {
+    if (isCrystalActive) {
+        createRipple(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+        beam.style.display = 'none';
+        isCrystalActive = false;
+    }
+});
+
+function updateBeam(t1, t2) {
+    beam.setAttribute('x1', t1.clientX);
+    beam.setAttribute('y1', t1.clientY);
+    beam.setAttribute('x2', t2.clientX);
+    beam.setAttribute('y2', t2.clientY);
+}
+
+function createRipple(x, y) {
+    const r = document.createElement('div');
+    r.className = 'ripple-effect';
+    r.style.left = x + 'px';
+    r.style.top = y + 'px';
+    document.body.appendChild(r);
+    setTimeout(() => r.remove(), 1000);
+}
+
+// SECRETO PC: Mantener "V" (de Vínculo) + mover ratón para ver una demo (usa el centro)
+let isVDown = false;
+document.addEventListener('keydown', (e) => {
+    if (e.key.toLowerCase() === 'v') {
+        isVDown = true;
+        beam.style.display = 'block';
+    }
+});
+document.addEventListener('keyup', (e) => {
+    if (e.key.toLowerCase() === 'v') {
+        isVDown = false;
+        beam.style.display = 'none';
+    }
+});
+document.addEventListener('mousemove', (e) => {
+    if (isVDown) {
+        // En PC conectamos el ratón con el centro de la pantalla para simular
+        updateBeam({clientX: window.innerWidth/2, clientY: window.innerHeight/2}, {clientX: e.clientX, clientY: e.clientY});
+    }
+});
+
+// 5. MODO LINTERNA (3 clics/toques en el fondo)
+let bgClickCount = 0;
+let isFlashlightMode = false;
+document.body.addEventListener('mousedown', (e) => {
+    if (e.target === document.body || e.target.id === 'floatingHearts') {
+        bgClickCount++;
+        if (bgClickCount === 3) {
+            toggleFlashlight();
+            bgClickCount = 0;
+        }
+        setTimeout(() => bgClickCount = 0, 1000);
+    }
+});
+
+function toggleFlashlight() {
+    isFlashlightMode = !isFlashlightMode;
+    const overlay = document.getElementById('flashlightOverlay');
+    const texts = document.querySelectorAll('.flashlight-text');
+    
+    overlay.style.display = isFlashlightMode ? 'block' : 'none';
+    texts.forEach(t => t.style.display = isFlashlightMode ? 'block' : 'none');
+    
+    if (isFlashlightMode) {
+        showSecretPopup('🔦 Modo Linterna activado... busca los mensajes ocultos');
+    }
+}
+
+function moveFlashlight(e) {
+    if (!isFlashlightMode) return;
+    const x = e.clientX || (e.touches && e.touches[0].clientX);
+    const y = e.clientY || (e.touches && e.touches[0].clientY);
+    
+    const overlay = document.getElementById('flashlightOverlay');
+    const mask = `radial-gradient(circle 120px at ${x}px ${y}px, transparent 0%, black 100%)`;
+    overlay.style.maskImage = mask;
+    overlay.style.webkitMaskImage = mask;
+}
+
+document.addEventListener('mousemove', moveFlashlight);
+document.addEventListener('touchmove', moveFlashlight, { passive: true });
+
+// 6. CARGA DE AMOR (Mantener presionado)
+let pressTimer;
+let isCharging = false;
+const chargeCircle = document.getElementById('chargeCircle');
+
+function startPress(e) {
+    if (e.target !== document.body && e.target.id !== 'floatingHearts') return;
+    
+    isCharging = true;
+    const x = e.clientX || (e.touches && e.touches[0].clientX);
+    const y = e.clientY || (e.touches && e.touches[0].clientY);
+    
+    chargeCircle.style.left = x + 'px';
+    chargeCircle.style.top = y + 'px';
+    chargeCircle.style.display = 'block';
+    
+    pressTimer = setTimeout(() => {
+        if (isCharging) {
+            showSecretPopup('❤️ ¡CARGA DE AMOR COMPLETADA! ❤️');
+            createConfetti();
+            for(let i = 0; i < 20; i++) setTimeout(createFloatingEmoji, i * 50);
+            cancelPress();
+        }
+    }, 2000);
+}
+
+function cancelPress() {
+    isCharging = false;
+    clearTimeout(pressTimer);
+    chargeCircle.style.display = 'none';
+}
+
+document.addEventListener('mousedown', startPress);
+document.addEventListener('touchstart', startPress, { passive: true });
+document.addEventListener('mouseup', cancelPress);
+document.addEventListener('touchend', cancelPress);
+
+// 7. LLUVIA DE AMOR (Deslizar hacia abajo)
+let startYSwipe = 0;
+document.addEventListener('touchstart', (e) => {
+    startYSwipe = e.touches[0].clientY;
+});
+
+document.addEventListener('touchend', (e) => {
+    const endY = e.changedTouches[0].clientY;
+    // Si desliza hacia abajo más de 200px
+    if (startYSwipe > 0 && endY - startYSwipe > 200) {
+        startEmojiRain();
+    }
+    startYSwipe = 0;
+});
+
+// En PC: Al mover el ratón rápido hacia abajo
+let lastMouseY = 0;
+document.addEventListener('mousemove', (e) => {
+    if (e.clientY - lastMouseY > 50 && e.buttons === 1) { // Click + mover abajo
+        startEmojiRain();
+    }
+    lastMouseY = e.clientY;
+});
+
+function startEmojiRain() {
+    showSecretPopup('🌧️ ¡LLUVIA DE AMOR! 🌧️');
+    const interval = setInterval(() => {
+        for(let i = 0; i < 5; i++) {
+            const emoji = document.createElement('div');
+            emoji.className = 'confetti'; // Usamos la clase confetti que ya tiene animación de caída
+            emoji.innerHTML = ['❤️', '💖', '✨', '🌈', '🌸', '🍭', '🦋'][Math.floor(Math.random() * 7)];
+            emoji.style.left = Math.random() * 100 + '%';
+            emoji.style.top = '-50px';
+            emoji.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            emoji.style.background = 'none'; // Quitamos el color sólido de los papelitos
+            emoji.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            document.body.appendChild(emoji);
+            setTimeout(() => emoji.remove(), 4000);
+        }
+    }, 100);
+    
+    // Parar la lluvia después de 8 segundos para no saturar el celu
+    setTimeout(() => clearInterval(interval), 8000);
+}
