@@ -393,6 +393,12 @@ body.party-mode {
 @media screen and (max-width: 768px) {
     body {
         padding: 10px;
+        touch-action: manipulation; /* Evita el retraso del doble toque para zoom */
+    }
+
+    #daniSecret {
+        padding: 5px 2px; /* Área de toque más grande para el dedo */
+        display: inline-block;
     }
 
     .container {

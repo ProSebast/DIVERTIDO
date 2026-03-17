@@ -648,22 +648,29 @@ window.addEventListener('resize', () => {
 // 1. EL REGAÑO POR GIRAR EL CEL
 function checkOrientation() {
     const overlay = document.getElementById('orientationOverlay');
-    if (window.innerHeight < window.innerWidth && window.innerWidth < 1000) {
-        // Esta de lado el aparato este
+    // Detectar si está en horizontal y es un dispositivo móvil/tablet
+    const isLandscape = window.matchMedia("(orientation: landscape)").matches;
+    const isMobile = window.innerWidth < 1024; 
+
+    if (isLandscape && isMobile) {
         overlay.style.display = 'flex';
     } else {
-        // Todo bien, esta derecho
         overlay.style.display = 'none';
     }
 }
-checkOrientation(); // Lo miro de una vez
+
+// Escuchar cambios de orientación de forma más robusta
+window.addEventListener("orientationchange", checkOrientation);
+window.addEventListener("resize", checkOrientation);
+checkOrientation(); 
 
 // 3. EL SECRETO DE SU NOMBRE (3 toques en Dani)
 let daniClickCount = 0;
-document.getElementById('daniSecret').addEventListener('click', function() {
+// Usamos pointerdown para que responda instantáneo en móviles
+document.getElementById('daniSecret').addEventListener('pointerdown', function(e) {
     daniClickCount++;
     if (daniClickCount === 3) {
-        showSecretPopup('💖 ¡Eres la persona más increíble del mundo! 💖<br><br>Y oficialmente mi persona favorita 😌✨');
+        showSecretPopup('💖 ¡Eres la persona más increíble del mundo! 💖<br><br>Bueno, a veces te gusta hacer las cosas a tu manera... pero se te quiere igual 😂');
         createConfetti();
         daniClickCount = 0;
     }
@@ -672,10 +679,11 @@ document.getElementById('daniSecret').addEventListener('click', function() {
 // 4. LLUVIA DE EMOJIS CON DOS DEDOS
 document.addEventListener('touchstart', function(e) {
     if (e.touches.length === 2) {
-        // ¡Doble dedo! Lluvia extrema
+        // Detenemos el zoom del sistema para que funcione nuestro secreto
+        if (e.cancelable) e.preventDefault(); 
         showSecretPopup('🔥 ¡EXPLOSIÓN DE EMOJIS! 🔥');
         for(let i = 0; i < 30; i++) {
             setTimeout(createFloatingEmoji, i * 50);
         }
     }
-});
+}, { passive: false });
