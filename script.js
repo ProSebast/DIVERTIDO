@@ -481,66 +481,74 @@ function startEmojiRain() {
     setTimeout(() => clearInterval(inter), 6000);
 }
 
-// Modo linterna
+// Modo linterna mejorado
 let bgClicks = 0;
 let isFlash = false;
+
+function toggleFlashlight() {
+    isFlash = !isFlash;
+    const ov = document.getElementById('flashlightOverlay');
+    const container = document.getElementById('mainContainer');
+    const floatingHearts = document.getElementById('floatingHearts');
+    
+    if (isFlash) {
+        // Activar modo linterna
+        if (ov) ov.style.display = 'block';
+        if (container) container.style.display = 'none';
+        if (floatingHearts) floatingHearts.style.display = 'none';
+        document.querySelectorAll('.flashlight-text').forEach(t => t.style.display = 'block');
+        showSecretPopup('🔦 Modo Linterna activado<br>Busca los mensajes ocultos<br>3 clics para salir');
+    } else {
+        // Desactivar modo linterna
+        if (ov) ov.style.display = 'none';
+        if (container) container.style.display = 'block';
+        if (floatingHearts) floatingHearts.style.display = 'block';
+        document.querySelectorAll('.flashlight-text').forEach(t => t.style.display = 'none');
+        showSecretPopup('🔦 Modo Linterna desactivado');
+    }
+    bgClicks = 0;
+}
+
 document.body.addEventListener('mousedown', (e) => {
-    if (e.target === document.body || e.target.id === 'floatingHearts') {
+    if (e.target === document.body || e.target.id === 'floatingHearts' || e.target.id === 'flashlightOverlay') {
         bgClicks++;
         if (bgClicks === 3) {
-            isFlash = !isFlash;
-            const ov = document.getElementById('flashlightOverlay');
-            if (ov) ov.style.display = isFlash ? 'block' : 'none';
-            document.querySelectorAll('.flashlight-text').forEach(t => t.style.display = isFlash ? 'block' : 'none');
-            if (isFlash) showSecretPopup('🔦 Modo Linterna activado');
-            bgClicks = 0;
+            toggleFlashlight();
         }
-        setTimeout(() => bgClicks = 0, 1000);
+        setTimeout(() => { if (bgClicks < 3) bgClicks = 0; }, 1000);
     }
 });
+
+document.body.addEventListener('touchstart', (e) => {
+    if (e.target === document.body || e.target.id === 'floatingHearts' || e.target.id === 'flashlightOverlay') {
+        bgClicks++;
+        if (bgClicks === 3) {
+            toggleFlashlight();
+        }
+        setTimeout(() => { if (bgClicks < 3) bgClicks = 0; }, 1000);
+    }
+}, { passive: true });
 
 document.addEventListener('mousemove', (e) => {
     if (!isFlash) return;
     const ov = document.getElementById('flashlightOverlay');
     if (ov) {
-        const m = `radial-gradient(circle 120px at ${e.clientX}px ${e.clientY}px, transparent 0%, black 100%)`;
+        const m = `radial-gradient(circle 150px at ${e.clientX}px ${e.clientY}px, transparent 0%, rgba(0,0,0,0.95) 100%)`;
         ov.style.maskImage = m;
         ov.style.webkitMaskImage = m;
     }
 });
 
-// Carga de amor
-let pressTimer;
-let isCharging = false;
-const chargeCircle = document.getElementById('chargeCircle');
-
-function startPress(e) {
-    if (e.target !== document.body && e.target.id !== 'floatingHearts') return;
-    isCharging = true;
-    const x = e.clientX || (e.touches && e.touches[0].clientX);
-    const y = e.clientY || (e.touches && e.touches[0].clientY);
-    chargeCircle.style.left = x + 'px';
-    chargeCircle.style.top = y + 'px';
-    chargeCircle.style.display = 'block';
-    pressTimer = setTimeout(() => {
-        if (isCharging) {
-            showSecretPopup('❤️ ¡CARGA DE AMOR COMPLETADA! ❤️');
-            createConfetti();
-            cancelPress();
-        }
-    }, 2000);
-}
-
-function cancelPress() {
-    isCharging = false;
-    clearTimeout(pressTimer);
-    chargeCircle.style.display = 'none';
-}
-
-document.addEventListener('mousedown', startPress);
-document.addEventListener('touchstart', startPress, { passive: true });
-document.addEventListener('mouseup', cancelPress);
-document.addEventListener('touchend', cancelPress);
+document.addEventListener('touchmove', (e) => {
+    if (!isFlash) return;
+    const touch = e.touches[0];
+    const ov = document.getElementById('flashlightOverlay');
+    if (ov) {
+        const m = `radial-gradient(circle 150px at ${touch.clientX}px ${touch.clientY}px, transparent 0%, rgba(0,0,0,0.95) 100%)`;
+        ov.style.maskImage = m;
+        ov.style.webkitMaskImage = m;
+    }
+}, { passive: true });
 
 window.addEventListener('resize', () => {
     if (gameRunning && canvas) {

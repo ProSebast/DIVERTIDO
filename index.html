@@ -67,6 +67,19 @@
 
     <!-- 3. El Vínculo de Cristal -->
     <svg id="crystalLine">
+        <defs>
+            <linearGradient id="crystalGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#FF6B9D;stop-opacity:1">
+                    <animate attributeName="stop-color" values="#FF6B9D;#FEC163;#C9EEFF;#FFD93D;#FF6B9D" dur="3s" repeatCount="indefinite" />
+                </stop>
+                <stop offset="50%" style="stop-color:#FEC163;stop-opacity:1">
+                    <animate attributeName="stop-color" values="#FEC163;#C9EEFF;#FFD93D;#FF6B9D;#FEC163" dur="3s" repeatCount="indefinite" />
+                </stop>
+                <stop offset="100%" style="stop-color:#C9EEFF;stop-opacity:1">
+                    <animate attributeName="stop-color" values="#C9EEFF;#FFD93D;#FF6B9D;#FEC163;#C9EEFF" dur="3s" repeatCount="indefinite" />
+                </stop>
+            </linearGradient>
+        </defs>
         <line id="beam" class="crystal-beam" x1="0" y1="0" x2="0" y2="0" style="display:none;" />
     </svg>
 

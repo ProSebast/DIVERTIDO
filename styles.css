@@ -584,7 +584,7 @@ body.party-mode {
 
 /* ========== NUEVOS SECRETOS PRO ========== */
 
-/* 1. Modo Linterna */
+/* 1. Modo Linterna Mejorado */
 #flashlightOverlay {
     position: fixed;
     top: 0;
@@ -594,20 +594,47 @@ body.party-mode {
     background: #000;
     z-index: 5000;
     display: none;
-    pointer-events: none;
-    mask-image: radial-gradient(circle 100px at 50% 50%, transparent 100%, black 100%);
-    -webkit-mask-image: radial-gradient(circle 100px at 50% 50%, transparent 100%, black 100%);
+    pointer-events: auto;
+    mask-image: radial-gradient(circle 150px at 50% 50%, transparent 0%, black 100%);
+    -webkit-mask-image: radial-gradient(circle 150px at 50% 50%, transparent 0%, black 100%);
 }
 
 .flashlight-text {
     position: fixed;
-    color: #00ffcc;
-    font-size: 1.5em;
+    color: #FFD700;
+    font-size: 2em;
     font-weight: bold;
-    text-shadow: 0 0 10px #00ffcc;
+    text-shadow: 
+        0 0 10px #FFD700,
+        0 0 20px #FFD700,
+        0 0 30px #FF6B9D,
+        0 0 40px #FF6B9D;
     z-index: 4999;
     display: none;
     pointer-events: none;
+    padding: 20px;
+    background: rgba(255, 107, 157, 0.2);
+    border-radius: 15px;
+    border: 2px solid rgba(255, 215, 0, 0.5);
+    animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0%, 100% { 
+        text-shadow: 
+            0 0 10px #FFD700,
+            0 0 20px #FFD700,
+            0 0 30px #FF6B9D,
+            0 0 40px #FF6B9D;
+    }
+    50% { 
+        text-shadow: 
+            0 0 20px #FFD700,
+            0 0 30px #FFD700,
+            0 0 40px #FF6B9D,
+            0 0 50px #FF6B9D,
+            0 0 60px #FEC163;
+    }
 }
 
 /* 2. Círculo de Carga */
@@ -630,7 +657,7 @@ body.party-mode {
     100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* ========== EL VÍNCULO DE CRISTAL (2 DEDOS) ========== */
+/* ========== EL VÍNCULO DE CRISTAL MEJORADO (2 DEDOS) ========== */
 #crystalLine {
     position: fixed;
     top: 0;
@@ -642,28 +669,74 @@ body.party-mode {
 }
 
 .crystal-beam {
-    stroke: #FF6B9D;
-    stroke-width: 5;
+    stroke: url(#crystalGradient);
+    stroke-width: 8;
     stroke-linecap: round;
-    filter: drop-shadow(0 0 15px #FF6B9D);
-    stroke-dasharray: 10 5;
-    animation: dash 0.5s linear infinite;
+    filter: 
+        drop-shadow(0 0 10px #FF6B9D) 
+        drop-shadow(0 0 20px #FEC163)
+        drop-shadow(0 0 30px #C9EEFF);
+    stroke-dasharray: 15 10;
+    animation: dash 0.3s linear infinite, pulse 1s ease-in-out infinite;
+    opacity: 0.9;
 }
 
 @keyframes dash {
-    to { stroke-dashoffset: -15; }
+    to { stroke-dashoffset: -25; }
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        stroke-width: 8;
+        filter: 
+            drop-shadow(0 0 10px #FF6B9D) 
+            drop-shadow(0 0 20px #FEC163)
+            drop-shadow(0 0 30px #C9EEFF);
+    }
+    50% { 
+        stroke-width: 12;
+        filter: 
+            drop-shadow(0 0 15px #FF6B9D) 
+            drop-shadow(0 0 25px #FEC163)
+            drop-shadow(0 0 35px #C9EEFF)
+            drop-shadow(0 0 45px #FFD93D);
+    }
 }
 
 .ripple-effect {
     position: fixed;
-    border: 4px solid #fff;
+    border: 5px solid #FF6B9D;
+    box-shadow: 
+        0 0 20px #FF6B9D,
+        0 0 40px #FEC163,
+        inset 0 0 20px rgba(255, 107, 157, 0.5);
     border-radius: 50%;
     pointer-events: none;
     z-index: 7001;
-    animation: rippleAnim 0.8s ease-out forwards;
+    animation: rippleAnim 1s ease-out forwards;
 }
 
 @keyframes rippleAnim {
-    0% { width: 0; height: 0; opacity: 1; transform: translate(-50%, -50%) scale(0); }
-    100% { width: 500px; height: 500px; opacity: 0; transform: translate(-50%, -50%) scale(1); }
+    0% { 
+        width: 0; 
+        height: 0; 
+        opacity: 1; 
+        transform: translate(-50%, -50%) scale(0);
+        border-width: 5px;
+    }
+    50% {
+        opacity: 0.8;
+        border-width: 3px;
+    }
+    100% { 
+        width: 600px; 
+        height: 600px; 
+        opacity: 0; 
+        transform: translate(-50%, -50%) scale(1);
+        border-width: 1px;
+    }
+}
+  transform: translate(-50%, -50%) scale(1);
+        border-width: 1px;
+    }
 }
