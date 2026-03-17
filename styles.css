@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent; /* Evita el recuadro azul al tocar en móviles */
 }
 
 body {
@@ -16,6 +17,7 @@ body {
     padding: 20px;
     position: relative;
     overflow-x: hidden;
+    touch-action: pan-y; /* Permite scroll pero ayuda con gestos */
 }
 
 @keyframes gradientShift {
@@ -31,7 +33,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
+    pointer-events: none; /* Crucial: para que los clics pasen a través de ellos */
     z-index: 1;
     overflow: hidden;
 }
@@ -123,6 +125,8 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
     margin: 40px 0;
+    position: relative;
+    z-index: 5; /* Aseguramos que los botones estén arriba */
 }
 
 .btn {
@@ -139,6 +143,7 @@ body {
     box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
     position: relative;
     overflow: hidden;
+    pointer-events: auto !important; /* Forzamos que acepten clics */
 }
 
 .btn::before {
@@ -554,6 +559,27 @@ body.party-mode {
     z-index: 2001;
     display: none;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+#gameOver {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    z-index: 8000; /* Aseguramos que esté por encima de casi todo */
+    display: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    border: 3px solid #FF6B9D;
+}
+
+#gameOver .btn {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
 }
 
 /* ========== NUEVOS SECRETOS PRO ========== */
