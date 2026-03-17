@@ -126,11 +126,30 @@ async function showRandom() {
 
 function showHistorias() {
     const historias = [
-        { titulo: "1️⃣ El niño de la moto", texto: "Cuando era niño, me perdí en el Mall. Me encontraron subido en una moto de exhibición. Tan yo." },
-        { titulo: "2️⃣ Escapada épica", texto: "Escalé el muro de la vecina y nadie supo cómo. Ni yo lo sé. Talento natural." },
-        { titulo: "3️⃣ Ataque aéreo", texto: "Una paloma me bendijo justo antes de una presentación escolar. Un baño total." },
-        { titulo: "4️⃣ El perro me ganó", texto: "Rompí una mesa porque un perro pequeño me empujó. Fue humillante." },
-        { titulo: "5️⃣ Niño barro", texto: "Caí en un canal y salí negro de barro. Parecía otra persona." }
+        { 
+            titulo: "1️⃣ El niño de la moto del mall", 
+            texto: "Cuando era niño, un día me perdí en el Mall de Santiago. Nadie sabía dónde estaba y mi mamá me buscaba por todos lados. Hasta que le preguntó a un guardia, y el guardia dijo:<br>\"¿No es el niño que está arriba de la moto en exhibición?\"<br>Sí… ese era yo." 
+        },
+        { 
+            titulo: "2️⃣ El día que escapé a la casa de la vecina", 
+            texto: "Cuando era niño, un día desaparecí de la casa. Nadie me encontraba por ningún lado.<br>Al final me encontraron en la casa de la vecina. Resulta que yo había escalado un muro que estaba en la casa y pasé para el otro lado.<br>Hasta el día de hoy nadie sabe cómo escalé ese muro… ni yo.<br>Supongo que soy un genio." 
+        },
+        { 
+            titulo: "3️⃣ El ataque de la paloma", 
+            texto: "En la media tenía una presentación para el Día del Profesor. Iba todo arreglado y bien preparado.<br>Cuando estaba llegando a la entrada del colegio… una paloma me cagó.<br>No sé qué había comido esa paloma, pero fue un baño total.<br>Hasta el día de hoy me río de eso." 
+        },
+        { 
+            titulo: "4️⃣ Mi canal de YouTube que aún existe", 
+            texto: "¿Te conté que una vez tuve un canal de YouTube?<br>Pues todavía existe:<br><a href='https://www.youtube.com/@Tasle' target='_blank'>https://www.youtube.com/@Tasle</a><br><br>Lo dejé ahí porque me da nostalgia… y también risa.<br>Aunque creo que me da más vergüenza que otra cosa." 
+        },
+        { 
+            titulo: "5️⃣ El perro que me ganó", 
+            texto: "En mi primer carrete rompí una mesa.<br>Pero no fue lo que parece.<br>Fue porque un perro me empujó.<br><br>La cosa es que yo no estaba curao…<br>y el perro tampoco era grande.<br><br>Ese día me ganó un perro.<br>Rayos." 
+        },
+        { 
+            titulo: "6️⃣ El día que salí negro de barro", 
+            texto: "Una vez me quedé atrapado en un canal donde pasa el agua y esas cosas.<br>La cosa es que había puro barro, me resbalé y caí ahí.<br><br>Ese día salí completamente negro de barro.<br>Literalmente parecía otra persona." 
+        }
     ];
     
     if (historiasVistas.length === historias.length) {
