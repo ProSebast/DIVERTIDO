@@ -52,6 +52,16 @@
     <!-- El cuadrito que sale cuando tocas algo que no debes -->
     <div id="secretMessage" class="secret-message"></div>
 
+    <!-- El canvas del juego secreto -->
+    <canvas id="gameCanvas"></canvas>
+    <div id="gameScore">0</div>
+    <div id="gameOver">
+        <h2>Perdiste!!!</h2>
+        <p>Puntuación: <span id="finalScore">0</span></p>
+        <button class="btn" onclick="resetGame()" style="margin-top: 20px;">Volver a intentar</button>
+        <button class="btn" onclick="exitGame()" style="margin-top: 10px; background: #666;">Salir</button>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

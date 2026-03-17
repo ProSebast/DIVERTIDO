@@ -523,5 +523,43 @@ body.party-mode {
         margin: 15px 0;
     }
 }
-  }
+
+/* ========== EL JUEGO SECRETO ESTE ========== */
+#gameCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #70c5ce;
+    z-index: 2000;
+    display: none;
+    touch-action: none;
+}
+
+#gameScore {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 2em;
+    font-weight: bold;
+    z-index: 2001;
+    display: none;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+#gameOver {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    z-index: 2002;
+    display: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }

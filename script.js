@@ -1,6 +1,8 @@
 // ========== COSAS QUE USO PARA QUE TODO FUNCIONE O NO SE ==========
 let titleClickCount = 0;
 let volumeLevel = 50;
+let volumeUpCount = 0;
+let lastVolumeUpTime = 0;
 let konamiCode = [];
 const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
 const contentArea = document.getElementById('contentArea');
@@ -41,6 +43,7 @@ document.getElementById('mainTitle').addEventListener('click', function() {
 document.addEventListener('keydown', function(e) {
     const volumeIndicator = document.getElementById('volumeIndicator');
     const volumeLevelSpan = document.getElementById('volumeLevel');
+    const now = Date.now();
     
     if (e.key === 'ArrowUp' || e.key === '+') {
         e.preventDefault();
@@ -48,6 +51,19 @@ document.addEventListener('keydown', function(e) {
         volumeLevelSpan.textContent = volumeLevel;
         volumeIndicator.classList.add('show');
         setTimeout(() => volumeIndicator.classList.remove('show'), 2000);
+
+        // Contador para el juego (5 veces seguidas)
+        if (now - lastVolumeUpTime < 1000) {
+            volumeUpCount++;
+        } else {
+            volumeUpCount = 1;
+        }
+        lastVolumeUpTime = now;
+
+        if (volumeUpCount === 5) {
+            initGame();
+            volumeUpCount = 0;
+        }
     } else if (e.key === 'ArrowDown' || e.key === '-') {
         e.preventDefault();
         volumeLevel = Math.max(0, volumeLevel - 10);
@@ -500,5 +516,137 @@ document.addEventListener('keyup', function(e) {
             createConfetti();
         }
         hKeyTime = 0;
+    }
+});
+
+// ========== EL JUEGO SECRETO DE VOLUMEN ==========
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+let gameRunning = false;
+let score = 0;
+let bird = { x: 50, y: 150, width: 30, height: 30, gravity: 0.6, lift: -10, velocity: 0 };
+let pipes = [];
+let frameCount = 0;
+
+function initGame() {
+    mainContainer.style.display = 'none';
+    canvas.style.display = 'block';
+    document.getElementById('gameScore').style.display = 'block';
+    document.getElementById('gameOver').style.display = 'none';
+    
+    // Ajustar canvas al tamaño de la pantalla
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    bird.y = canvas.height / 2;
+    bird.velocity = 0;
+    pipes = [];
+    score = 0;
+    frameCount = 0;
+    gameRunning = true;
+    
+    document.getElementById('gameScore').innerText = '0';
+    
+    requestAnimationFrame(gameLoop);
+}
+
+function gameLoop() {
+    if (!gameRunning) return;
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Fondo bonito
+    ctx.fillStyle = '#70c5ce';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Actualizar pájaro
+    bird.velocity += bird.gravity;
+    bird.y += bird.velocity;
+    
+    // Dibujar pájaro (emoji 🐥)
+    ctx.font = '30px Arial';
+    ctx.fillText('🐥', bird.x, bird.y);
+    
+    // Generar tuberías
+    if (frameCount % 100 === 0) {
+        let gap = 150;
+        let minHeight = 50;
+        let pipeWidth = 50;
+        let pipeHeight = Math.floor(Math.random() * (canvas.height - gap - minHeight * 2)) + minHeight;
+        pipes.push({ x: canvas.width, top: pipeHeight, bottom: canvas.height - pipeHeight - gap });
+    }
+    
+    // Actualizar y dibujar tuberías
+    for (let i = pipes.length - 1; i >= 0; i--) {
+        pipes[i].x -= 3;
+        
+        ctx.fillStyle = '#75b855';
+        ctx.fillRect(pipes[i].x, 0, 50, pipes[i].top);
+        ctx.fillRect(pipes[i].x, canvas.height - pipes[i].bottom, 50, pipes[i].bottom);
+        
+        // Colisión
+        if (bird.x + 25 > pipes[i].x && bird.x < pipes[i].x + 50) {
+            if (bird.y < pipes[i].top || bird.y > canvas.height - pipes[i].bottom) {
+                endGame();
+            }
+        }
+        
+        // Puntaje
+        if (pipes[i].x === bird.x) {
+            score++;
+            document.getElementById('gameScore').innerText = score;
+        }
+        
+        if (pipes[i].x < -50) pipes.splice(i, 1);
+    }
+    
+    // Colisión suelo/techo
+    if (bird.y > canvas.height || bird.y < 0) endGame();
+    
+    frameCount++;
+    requestAnimationFrame(gameLoop);
+}
+
+function endGame() {
+    gameRunning = false;
+    document.getElementById('gameOver').style.display = 'block';
+    document.getElementById('finalScore').innerText = score;
+}
+
+function resetGame() {
+    initGame();
+}
+
+function exitGame() {
+    gameRunning = false;
+    canvas.style.display = 'none';
+    document.getElementById('gameScore').style.display = 'none';
+    document.getElementById('gameOver').style.display = 'none';
+    mainContainer.style.display = 'block';
+}
+
+// Salto con tap o espacio
+function handleJump(e) {
+    if (gameRunning) {
+        bird.velocity = bird.lift;
+    }
+}
+
+canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    handleJump();
+}, { passive: false });
+
+canvas.addEventListener('mousedown', handleJump);
+
+document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') handleJump();
+});
+
+// Redimensionar canvas si cambia el tamaño
+window.addEventListener('resize', () => {
+    if (gameRunning) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
     }
 });
