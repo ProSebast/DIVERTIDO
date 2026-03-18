@@ -7,14 +7,14 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>Para Días Grises ☁️</title>
-    <link rel="stylesheet" href="styles.css?v=2.0">
+    <link rel="stylesheet" href="styles.css?v=3.0">
 </head>
 <body>
     <!-- Ni idea de por qué puse esto pero se ve bonito -->
     <div class="floating-hearts" id="floatingHearts"></div>
 
     <!-- El coso este para que sepa que tiene el volumen a tope -->
-    <div class="volume-indicator" id="volumeIndicator">🔊 Volumen: <span id="volumeLevel">50</span>%</div>
+    <div class="volume-indicator" id="volumeIndicator">🔊 Volume: <span id="volumeLevel">50</span>%</div>
 
     <div class="container" id="mainContainer">
         <div class="header">
@@ -55,15 +55,15 @@
     <!-- El cartel de que esta de lado el cel -->
     <div id="orientationOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); color: white; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; text-align: center; padding: 20px;">
         <h1 style="font-size: 50px;">🤢</h1>
-        <h2>¡Oye! Ponme derecho, que me mareo...</h2>
-        <p style="margin-top: 10px;">En serio, me voy a vomitar 🤮</p>
+        <h2>Hey! Turn me upright, I'm getting dizzy...</h2>
+        <p style="margin-top: 10px;">Seriously, I'm gonna throw up 🤮</p>
     </div>
 
     <!-- 1. Linterna de Oscuridad -->
     <div id="flashlightOverlay"></div>
-    <div id="flashlightSecret1" class="flashlight-text" style="top: 20%; left: 10%;">💖 Eres especial</div>
-    <div id="flashlightSecret2" class="flashlight-text" style="top: 70%; right: 15%;">✨ Nunca te rindas</div>
-    <div id="flashlightSecret3" class="flashlight-text" style="top: 40%; left: 60%;">🦋 Vuela alto</div>
+    <div id="flashlightSecret1" class="flashlight-text" style="top: 20%; left: 10%;">💖 You are special</div>
+    <div id="flashlightSecret2" class="flashlight-text" style="top: 70%; right: 15%;">✨ Never give up</div>
+    <div id="flashlightSecret3" class="flashlight-text" style="top: 40%; left: 60%;">🦋 Fly high</div>
 
     <!-- 2. Círculo de Carga -->
     <div id="chargeCircle"></div>
@@ -90,12 +90,14 @@
     <canvas id="gameCanvas"></canvas>
     <div id="gameScore">0</div>
     <div id="gameOver">
-        <h2>Perdiste!!!</h2>
-        <p>Puntuación: <span id="finalScore">0</span></p>
-        <button class="btn" onclick="resetGame()" style="margin-top: 20px;">Volver a intentar</button>
-        <button class="btn" onclick="exitGame()" style="margin-top: 10px; background: #666;">Salir</button>
+        <h2>Game Over!!!</h2>
+        <p>Score: <span id="finalScore">0</span></p>
+        <button class="btn" onclick="resetGame()" style="margin-top: 20px;">Try Again</button>
+        <button class="btn" onclick="exitGame()" style="margin-top: 10px; background: #666;">Exit</button>
     </div>
 
-    <script src="script.js?v=2.0"></script>
+    <script src="script.js?v=3.0"></script>
 </body>
 </html>
+</html>
+

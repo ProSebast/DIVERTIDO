@@ -33,7 +33,7 @@ if (mainTitle) {
         this.classList.add('shake');
         setTimeout(() => this.classList.remove('shake'), 500);
         if (titleClickCount === 5) {
-            showSecretPopup('🎉 Descubriste el secreto del título! 🎉<br><br>Eres más fuerte de lo que crees y más especial de lo que imaginas. ✨');
+            showSecretPopup('🎉 You discovered the title secret! 🎉<br><br>You are stronger than you think and more special than you imagine. ✨');
             createConfetti();
             titleClickCount = 0;
         }
@@ -74,7 +74,7 @@ document.addEventListener('keydown', function(e) {
 function activatePartyMode() {
     document.body.classList.add('party-mode');
     mainContainer.classList.add('rainbow-mode');
-    showSecretPopup('🎊 PARTY MODE ACTIVADO! 🎊<br><br>Konami Code desbloqueado 🎮');
+    showSecretPopup('🎊 PARTY MODE ACTIVATED! 🎊<br><br>Konami Code unlocked 🎮');
     createConfetti();
     for(let i = 0; i < 50; i++) setTimeout(createFloatingEmoji, i * 100);
     setTimeout(() => {
@@ -108,19 +108,19 @@ function showContent(html) {
 }
 
 async function showRandom() {
-    showContent('<div class="loading">Cargando algo divertido... 🎲</div>');
+    showContent('<div class="loading">Loading something fun... 🎲</div>');
     try {
         const response = await fetch('https://meme-api.com/gimme');
         const data = await response.json();
         showContent(`
             <div class="meme-container">
-                <h2>🎲 Algo para reír</h2>
+                <h2>🎲 Something to laugh at</h2>
                 <img src="${data.url}" alt="${data.title}">
                 <p style="text-align: center; margin-top: 15px; opacity: 0.8;">${data.title}</p>
             </div>
         `);
     } catch (error) {
-        showContent('<div class="message">¡Ups! No pude cargar el meme 😅<br>Intenta de nuevo</div>');
+        showContent('<div class="message">Oops! Couldn\'t load the meme 😅<br>Try again</div>');
     }
 }
 
@@ -155,8 +155,8 @@ function showHistorias() {
     if (historiasVistas.length === historias.length) {
         showContent(`
             <div class="historia-placeholder">
-                <h2>📖 Mis Historias</h2>
-                <p>Ya viste todas las historias por hoy. ¡Te aprecio mucho! ✨</p>
+                <h2>📖 My Stories</h2>
+                <p>You've seen all the stories for today. I appreciate you so much! ✨</p>
             </div>
         `);
         historiasVistas = [];
@@ -169,10 +169,10 @@ function showHistorias() {
     
     showContent(`
         <div class="historia-placeholder">
-            <h2>📖 Mis Historias</h2>
+            <h2>📖 My Stories</h2>
             <h3 style="color: #FF6B9D;">${h.titulo}</h3>
             <p>${h.texto}</p>
-            <p style="font-size: 0.8em; opacity: 0.6; margin-top: 20px;">Pulsa de nuevo para otra historia (${historiasVistas.length}/${historias.length})</p>
+            <p style="font-size: 0.8em; opacity: 0.6; margin-top: 20px;">Click again for another story (${historiasVistas.length}/${historias.length})</p>
         </div>
     `);
     
@@ -181,13 +181,13 @@ function showHistorias() {
 
 function showMalDia() {
     const msgs = [
-        "Respira profundo, mañana será mejor. 🌅",
-        "Los días malos existen para que los buenos brillen. 💪",
-        "Está bien no estar bien. Date permiso. 🌟",
-        "Eres increíble siempre. ✨"
+        "Take a deep breath, tomorrow will be better. 🌅",
+        "Bad days exist so good days can shine brighter. 💪",
+        "It's okay not to be okay. Give yourself permission. 🌟",
+        "You're amazing always. ✨"
     ];
     const m = msgs[Math.floor(Math.random() * msgs.length)];
-    showContent(`<div class="message"><h2>💙 Un Mensaje</h2><p>${m}</p></div>`);
+    showContent(`<div class="message"><h2>💙 A Message</h2><p>${m}</p></div>`);
 }
 
 function showMensajeDia() {
@@ -204,7 +204,7 @@ function showMensajeDia() {
     const msg = mensajes[Math.floor(Math.random() * mensajes.length)];
     showContent(`
         <div class="quote">
-            <h2>💫 Mensaje del Día</h2>
+            <h2>💫 Message of the Day</h2>
             <p style="margin-top: 30px;">"${msg.text}"</p>
             <p class="quote-author">— ${msg.author}</p>
         </div>
@@ -213,17 +213,17 @@ function showMensajeDia() {
 
 function showRecuerda() {
     const mensajes = [
-        { text: "Eres suficiente tal cual eres. No necesitas ser perfecto para ser valioso.", author: "Tu corazón" },
-        { text: "Tu valor no depende de opiniones ajenas. Eres único e irremplazable.", author: "La verdad" },
-        { text: "Mereces amor, respeto y todas las cosas buenas que la vida tiene para ofrecer.", author: "El universo" },
-        { text: "Eres más fuerte de lo que piensas, más valiente de lo que crees.", author: "Winnie the Pooh" },
-        { text: "Tu historia no ha terminado. Cada día es una nueva página que puedes escribir.", author: "Tu futuro" }
+        { text: "You are enough just as you are. You don't need to be perfect to be valuable.", author: "Your heart" },
+        { text: "Your worth doesn't depend on others' opinions. You are unique and irreplaceable.", author: "The truth" },
+        { text: "You deserve love, respect, and all the good things life has to offer.", author: "The universe" },
+        { text: "You are stronger than you think, braver than you believe.", author: "Winnie the Pooh" },
+        { text: "Your story isn't over. Every day is a new page you can write.", author: "Your future" }
     ];
     
     const msg = mensajes[Math.floor(Math.random() * mensajes.length)];
     showContent(`
         <div class="quote">
-            <h2>✨ Recuerda Quién Eres</h2>
+            <h2>✨ Remember Who You Are</h2>
             <p style="margin-top: 30px;">"${msg.text}"</p>
             <p class="quote-author">— ${msg.author}</p>
         </div>
@@ -239,8 +239,8 @@ function showMusica() {
     const randomSong = canciones[Math.floor(Math.random() * canciones.length)];
     showContent(`
         <div class="spotify-container">
-            <h2>🎵 Música que podría gustarte</h2>
-            <p style="margin: 20px 0;">Una canción random para alegrar tu día 😊</p>
+            <h2>🎵 Music You Might Like</h2>
+            <p style="margin: 20px 0;">A random song to brighten your day 😊</p>
             <iframe 
                 src="https://open.spotify.com/embed/track/${randomSong}?utm_source=generator&theme=0" 
                 width="100%" 
@@ -388,7 +388,7 @@ if (daniSecret) {
     daniSecret.addEventListener('pointerdown', () => {
         daniClicks++;
         if (daniClicks === 3) {
-            showSecretPopup('💖 Eres la mejor persona del mundo! 💖');
+            showSecretPopup('💖 You are the best person in the world! 💖');
             createConfetti();
             daniClicks = 0;
         }
@@ -405,7 +405,7 @@ document.addEventListener('touchstart', (e) => {
         isCrystal = true;
         updateBeam(e.touches[0], e.touches[1]);
         if (beam) beam.style.display = 'block';
-        showSecretPopup('✨ ¡VÍNCULO DE CRISTAL! ✨');
+        showSecretPopup('✨ CRYSTAL BOND! ✨');
     }
 }, { passive: false });
 
@@ -464,7 +464,7 @@ document.addEventListener('touchend', (e) => {
 });
 
 function startEmojiRain() {
-    showSecretPopup('🌧️ ¡LLUVIA DE AMOR! 🌧️');
+    showSecretPopup('🌧️ LOVE RAIN! 🌧️');
     const inter = setInterval(() => {
         for(let i=0; i<5; i++) {
             const e = document.createElement('div');
@@ -497,14 +497,14 @@ function toggleFlashlight() {
         if (container) container.style.display = 'none';
         if (floatingHearts) floatingHearts.style.display = 'none';
         document.querySelectorAll('.flashlight-text').forEach(t => t.style.display = 'block');
-        showSecretPopup('🔦 Modo Linterna activado<br>Busca los mensajes ocultos<br>3 clics para salir');
+        showSecretPopup('🔦 Flashlight Mode activated<br>Find the hidden messages<br>3 clicks to exit');
     } else {
         // Desactivar modo linterna
         if (ov) ov.style.display = 'none';
         if (container) container.style.display = 'block';
         if (floatingHearts) floatingHearts.style.display = 'block';
         document.querySelectorAll('.flashlight-text').forEach(t => t.style.display = 'none');
-        showSecretPopup('🔦 Modo Linterna desactivado');
+        showSecretPopup('🔦 Flashlight Mode deactivated');
     }
     bgClicks = 0;
 }
